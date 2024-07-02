@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: swish-analytics
-    image: alpine:latest
+    image: chrisherrera1/swish-analytics:latest
     command: ["/bin/sh", "-c"]
     args:
     - |
