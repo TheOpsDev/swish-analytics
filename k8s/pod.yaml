@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chris-herrera-take-home
+spec:
+  containers:
+  - name: swish-analytics
+    image: alpine:latest
+    command: ["/bin/sh", "-c"]
+    args:
+    - |
+      for i in $(seq 7200); do
+        echo "$(date +%H:%M:%S)"
+        sleep 1
+      done

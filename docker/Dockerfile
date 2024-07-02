@@ -38,7 +38,7 @@ RUN wget https://www.python.org/ftp/python/$PYTHON2_VERSION/Python-$PYTHON2_VERS
 # Build python2.7 from source
 RUN cd Python-$PYTHON2_VERSION && \
     ./configure --enable-optimizations && \
-    make && \
+    make -j$(($(nproc) + 1)) && \
     make install && \
     cd .. && \
     rm -rf Python-$PYTHON2_VERSION
@@ -57,8 +57,11 @@ RUN apk del \
     zlib-dev \
     readline-dev \
     sqlite-dev \
-    xz
+    xz \
+    wget
 
-# Install pip3 packages
-# COPY requirements.txt /tmp/
-# RUN pip3 install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r /tmp/requirements.txt
+# Install packages
+COPY *-requirements.txt /tmp/
+RUN pip install -r /tmp/py2-requirements.txt 
+
+ENTRYPOINT ["/bin/sh"]
