@@ -35,13 +35,17 @@ Project
     - Notify when resources are idle or underutilized
         - <span style="color:red">I have previously leveraged KEDA (Kubernetes Event Driven Autoscaling) for managing dynamic scaling of workloads in Kubernetes. This offers more functionality compared to traditional HPAs, which primarily focus on CPU and memory metrics.</span>
     - Downscale when needed (you can assume any rule defined by you to allow this to happen) 
-    -  Save data to track people requests/usage and evaluate performance 
-3. The cluster needs to automatically handle up/down scaling and have multiple instance groups/taints/tags/others to be chosen from in order to segregate resources usage between teams/resources/projects/others 
+    -  Save data to track people requests/usage and evaluate performance
+        - <span style="color:red">Data collectors like Datadog, Sumologic, or Prometheus/Grafana can assist to track. Also the basic Kubernetes dashboard can help track resource utilization but is limited in its functionality</span> 
+3. The cluster needs to automatically handle up/down scaling and have multiple instance groups/taints/tags/others to be chosen from in order to segregate resources usage between teams/resources/projects/others
+     - <span style="color:red">The cluster autoscaler would handle the node resizing but need to ensure we have proper pod distruption budgets (PDBs) in place to ensure the workloads go uninterrupted during the autoscaling process. </span>
 4. SFTP, SSH or similar access to the deployed environment is needed so DNS handling automation is required 
+     - <span style="color:red">Terraform should be used to managed Route53 zones and records.</span>
 5. Some processes that are going to run inside these environments require between 100-250GB of data in memory 
-    - Could you talk about a time when you needed to bring the data to the code, and how you architected this system? 
-    - If you don’t have an example, could you talk through how you would go about architecting this? 
+    - Could you talk about a time when you needed to bring the data to the code, and how you architected this system?
+    - If you don’t have an example, could you talk through how you would go about architecting this?
+        - <span style="color:red">I am not familiar with the phrase bring the "data to the code". In the past I have supported Kinesis streams, Elasticache, and Confluent Kafka/KSqlDB. We had microservices deployed on EKS that communicated with these resources either as producers/consumers and leveraged VPCE to minimize egress traffic costs (Excluding Confluent resources as that was managed separately.). </span>
     - How would you monitor memory usage/errors? 
-
+        - <span style="color:red">We can leverage CloudWatch to setup AWS native monitors</span>
 ### Troubleshooting 
 Try to solve the problems that might arise through the test by yourself (we are always available, but we are looking forward to seeing your problem solving skills and ability to self serve).
