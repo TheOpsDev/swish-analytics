@@ -4,6 +4,7 @@ IMAGE_NAME=swish-analytics
 REGISTRY=chrisherrera1
 COMMIT_HASH=$(shell git rev-parse --short HEAD)
 BUILD_DATE=$(shell date '+%Y-%m-%d-%H:%M:%S')
+APP_NAME=chris-herrera
 
 help:
 	@echo "Management commands for Swish Analytics"
@@ -23,5 +24,9 @@ publish:
 	@echo "Pushing docker image to registry: latest ${COMMIT_HASH}"
 	docker push ${REGISTRY}/${IMAGE_NAME}:${COMMIT_HASH}
 	docker push ${REGISTRY}/${IMAGE_NAME}:latest
+
+deploy:
+	@echo "Initiating Helm deployment"
+	helm upgrade --install --create-namespace -f swish-analytics-app/values.yaml ${APP_NAME} swish-analytics-app -n ${APP_NAME}
 
 all: build publish
